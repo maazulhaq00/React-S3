@@ -107,7 +107,9 @@ function AddStudent() {
     }
 
     const handleButtonClick = () => {
-        navigate("/student")
+        navigate("/student", {
+            state: student
+        } )
     }
 
 

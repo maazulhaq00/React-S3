@@ -50,8 +50,11 @@
 
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AddStudent() {
+
+    const navigate = useNavigate();
 
     const [student, setStudent] = useState({
         fullname: "",
@@ -103,6 +106,10 @@ function AddStudent() {
         })
     }
 
+    const handleButtonClick = () => {
+        navigate("/student")
+    }
+
 
     return (
         <>
@@ -124,7 +131,7 @@ function AddStudent() {
                 <input type="text" name="grade" value={student.grade} onChange={handleInputChange} />
             </label> <br /><br />
 
-            <button>Add Student</button>
+            <button onClick={handleButtonClick}>Add Student</button>
         </>
     );
 }

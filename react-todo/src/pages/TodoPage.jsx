@@ -2,7 +2,48 @@ import { Container, Grid, Button, FormControl, InputLabel, OutlinedInput, InputA
 
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from "react";
 function TodoPage() {
+
+    const [todoInput, setTodoInput] = useState({
+        text: "",
+        status: false,
+        dateCreated: ""
+    })
+
+    const [todoList, setTodoList] = useState([])
+
+    const taskInputChange = (e) => {
+        setTodoInput({
+            ...todoInput,
+            text: e.target.value
+
+        })
+    }
+
+    const taskAddButtonClick = ()=>{
+
+        let now = new Date();
+
+        setTodoList([
+            ...todoList,
+            {
+                ...todoInput,
+                dateCreated: now.toString()
+
+            }
+        ])
+
+        setTodoInput({
+            text: "",
+            status: false,
+            dateCreated: ""
+        })
+
+    }
+
+
+
     return (
 
         <Container sx={{ my: 4 }} >
@@ -15,13 +56,15 @@ function TodoPage() {
                             id="todo-input"
                             startAdornment={<InputAdornment position="start">I will </InputAdornment>}
                             label="Add Task Todo"
+                            value={todoInput.text}
+                            onChange={taskInputChange}
                         />
                     </FormControl>
 
                 </Grid>
                 <Grid size={4}>
                     <Box>
-                        <Button variant="contained" sx={{ m: 1.2, p: 1.5 }}>Add</Button>
+                        <Button variant="contained" sx={{ m: 1.2, p: 1.5 }} onClick={taskAddButtonClick}>Add</Button>
                     </Box>
                 </Grid>
                 <Grid size={6}>

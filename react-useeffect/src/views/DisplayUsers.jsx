@@ -25,7 +25,6 @@ function DisplayUsers() {
 
     return (
         <>
-
             <h3>Users</h3>
 
             <table border={1}>

@@ -1,8 +1,11 @@
 import { Container, Grid, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, Box, List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText } from "@mui/material";
 
-import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import DoneIcon from '@mui/icons-material/Done';
+
 import { useState } from "react";
+import { green, grey } from "@mui/material/colors";
 function TodoPage() {
 
     const [todoInput, setTodoInput] = useState({
@@ -21,7 +24,7 @@ function TodoPage() {
         })
     }
 
-    const taskAddButtonClick = ()=>{
+    const taskAddButtonClick = () => {
 
         let now = new Date();
 
@@ -41,6 +44,33 @@ function TodoPage() {
         })
 
     }
+
+    const taskDeleteButtonClick = (todoDelete) => {
+
+        let updatedTodoList = todoList.filter((todo) => 
+            todo.text !== todoDelete.text)
+
+        setTodoList(updatedTodoList)
+    }
+
+    const taskDoneButtonClick = (todoDone) => {
+
+        let updatedTodoList = todoList.map((todo) => { 
+            if(todo.text == todoDone.text){
+                return {
+                    ...todo,
+                    status: true
+                }
+            }
+            else {
+                return todo
+            }
+        })
+
+        setTodoList(updatedTodoList)
+    }
+
+    
 
 
 
@@ -68,27 +98,44 @@ function TodoPage() {
                     </Box>
                 </Grid>
                 <Grid size={6}>
-                    
-                        <List >
-                                <ListItem
+
+                    <List >
+                        {
+                            todoList.map((todo, index) => {
+                                return <ListItem sx={{ bgcolor: todo.status ? 
+                                    'text.disabled' : 'success.main'}}
                                     secondaryAction={
-                                        <IconButton edge="end" aria-label="delete">
-                                            <DeleteIcon />
-                                        </IconButton>
+                                        <>
+                                            <IconButton edge="end" aria-label="delete" 
+                                            onClick={() => taskDoneButtonClick(todo)}>
+                                                <DoneIcon />
+                                            </IconButton>
+                                            <IconButton edge="end" aria-label="delete" 
+                                            onClick={() => taskDeleteButtonClick(todo)} >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </>
                                     }
                                 >
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <FolderIcon />
+                                            <AssignmentIcon />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary="Single-line item"
-                                        secondary='Secondary text'
+                                        primary={
+                                            todo.status ? 
+                                            `[Done] ${todo.text}`:
+                                            todo.text
+                                        }
+                                        secondary={todo.dateCreated}
                                     />
-                                </ListItem>,
-                        </List>
-                    </Grid>
+                                </ListItem>
+                            })
+                        }
+
+                    </List>
+                </Grid>
 
             </Grid>
 
